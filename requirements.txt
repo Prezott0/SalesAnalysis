@@ -8,4 +8,3 @@ Flask
 pandas
 pandas-datareader==0.10.0
 gunicorn==23.0.0
-dash-auti
