@@ -16,7 +16,7 @@ print(encoded_link)
 from app import *
 from dash_bootstrap_templates import ThemeSwitchAIO
 
-DIR_CSV = os.path.join(os.getcwd(), 'dataset_asimov.csv')
+DIR_CSV = os.path.join(os.getcwd(), 'dataset.csv')
 # ========== Styles ============ #
 tab_card = {'height': '100%'}
 
@@ -75,14 +75,14 @@ for i in df['Equipe'].unique():
     options_team.append({'label': i, 'value': i})
 
 # ========= Função dos Filtros ========= #
-def month_filter(month):
+def month_filter(month): #AQUI SAO FORMULADAS AS MASCARAS QUE SÃO PASSADAS AO DATAFRAMES PARA FILTRAGEM E EXIBIÇÃO DOS DADOS
     if month == 0:
         mask = df['Mês'].isin(df['Mês'].unique())
     else:
         mask = df['Mês'].isin([month])
     return mask
 
-def team_filter(team):
+def team_filter(team): #AQUI SAO FORMULADAS AS MASCARAS QUE SÃO PASSADAS AO DATAFRAMES PARA FILTRAGEM E EXIBIÇÃO DOS DADOS
     if team == 0:
         mask = df['Equipe'].isin(df['Equipe'].unique())
     else:
@@ -325,8 +325,8 @@ def graph1(month, toggle):
 
     fig2 = go.Figure(go.Pie(labels=df_1['Consultor'] + ' - ' + df_1['Equipe'], values=df_1['Valor Pago'], hole=.6))
     fig1 = go.Figure(go.Bar(x=df_1['Consultor'], y=df_1['Valor Pago'], textposition='auto', text=df_1['Valor Pago']))
-    fig1.update_layout(main_config, height=200, template=template)
-    fig2.update_layout(main_config, height=200, template=template, showlegend=False)
+    fig1.update_layout(main_config, height=200, template=template) #AQUI DEFINIMOS AS CONFIGURAÇÕES DO GRÁFICO, COMO LEGENDA E TAMANHO
+    fig2.update_layout(main_config, height=200, template=template, showlegend=False) #AQUI DEFINIMOS AS CONFIGURAÇÕES DO GRÁFICO, COMO LEGENDA E TAMANHO
 
     select = html.H1(convert_to_text(month))
 
@@ -439,8 +439,8 @@ def graph5(month, toggle):
 
     fig5.update_layout(main_config, height=200, template=template)
     fig6.update_layout(main_config, height=200, template=template)
-    fig5.update_layout({"margin": {"l":0, "r":0, "t":20, "b":0}})
-    fig6.update_layout({"margin": {"l":0, "r":0, "t":20, "b":0}})
+    fig5.update_layout({"margin": {"l":0, "r":0, "t":20, "b":0}}) #AQUI DEFINIMOS A MARGEM DOS GRAFICOS PLOTADOS ENCIMA DOS CARDS
+    fig6.update_layout({"margin": {"l":0, "r":0, "t":20, "b":0}}) #AQUI DEFINIMOS A MARGEM DOS GRAFICOS PLOTADOS ENCIMA DOS CARDS
     return fig5, fig6
 
 # Graph 7
@@ -458,7 +458,7 @@ def graph7(toggle):
     fig7.add_trace(go.Scatter(y=df_7_group["Valor Pago"], x=df_7_group["Mês"], mode='lines+markers', fill='tonexty', name='Total de Vendas'))
 
     fig7.update_layout(main_config, yaxis={'title': None}, xaxis={'title': None}, height=190, template=template)
-    fig7.update_layout({"legend": {"yanchor": "top", "y":0.99, "font" : {"color":"white", 'size': 10}}})
+    fig7.update_layout({"legend": {"yanchor": "top", "y":0.99, "font" : {"color":"white", 'size': 10}}}) #AQUI REPOSICIONAMOS A LEGENDA DO GRAFICO GERADO PELO PLOTLY
     return fig7
 
 # Graph 8
@@ -468,7 +468,7 @@ def graph7(toggle):
     Input(ThemeSwitchAIO.ids.switch("theme"), "value")
 )
 def graph8(month, toggle):
-    template = template_theme1 if toggle else template_theme2
+    template = template_theme1 if toggle else template_theme2 #DEFINE A SELEÇÃO DE TEMA
 
     mask = month_filter(month)
     df_8 = df.loc[mask]
@@ -482,7 +482,7 @@ def graph8(month, toggle):
         text=df_8['Valor Pago'],
         insidetextfont=dict(family='Times', size=12)))
 
-    fig8.update_layout(main_config, height=360, template=template)
+    fig8.update_layout(main_config, height=360, template=template) #DEFINIMOS AQUI NO UPDATELAYOUT O HEIGHT
     return fig8
 
 # Graph 9
@@ -493,7 +493,7 @@ def graph8(month, toggle):
     Input(ThemeSwitchAIO.ids.switch("theme"), "value")
 )
 def graph9(month, team, toggle):
-    template = template_theme1 if toggle else template_theme2
+    template = template_theme1 if toggle else template_theme2 #DEFINE A SELEÇÃO DE TEMA
 
     mask = month_filter(month)
     df_9 = df.loc[mask]
@@ -504,7 +504,7 @@ def graph9(month, team, toggle):
     df_9 = df_9.groupby('Meio de Propaganda')['Valor Pago'].sum().reset_index()
 
     fig9 = go.Figure()
-    fig9.add_trace(go.Pie(labels=df_9['Meio de Propaganda'], values=df_9['Valor Pago'], hole=.7))
+    fig9.add_trace(go.Pie(labels=df_9['Meio de Propaganda'], values=df_9['Valor Pago'], hole=.7))#hole=0 → Gráfico de Pizza completa (sem buraco).
 
     fig9.update_layout(main_config, height=150, template=template, showlegend=False)
     return fig9

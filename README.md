@@ -1,4 +1,3 @@
-![PROJETO SALES_site_dark]
 
 # Sales Analysis Dash
 
